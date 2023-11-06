@@ -1,0 +1,37 @@
+name: "Scheduled workflow"
+on:
+  schedule:
+    - cron: '5 * * * *'
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  run:
+    name: "Scheduled job"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      id-token: write
+      contents: read
+      actions: write
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: "Run workflow with workflow_dispatch event"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          parameter_list=$(mktemp)
+          git branch -r |
+          	tee "${parameter_list}" |
+          	xargs -I @ gh workflow run dispatched_workflow.yaml --ref "@" -f parameter1="@"
+          
+          	echo "### Target Environment BEGIN ###"
+          	cat "${parameter_list}"
+          	echo "### Target Environment END ###"

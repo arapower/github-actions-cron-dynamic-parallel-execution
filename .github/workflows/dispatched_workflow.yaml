@@ -1,0 +1,12 @@
+name: "Dispatched Workflow"
+on:
+  workflow_dispatch:
+    inputs:
+      parameter1:
+        type: string
+        required: true
+        description: "Parameter 1"
+jobs:
+  dispatched-job:
+      - run: |
+        echo "parameter1: ${{ github.event.inputs.parameter1 }}"
