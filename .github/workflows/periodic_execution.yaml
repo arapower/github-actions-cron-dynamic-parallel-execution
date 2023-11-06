@@ -30,9 +30,10 @@ jobs:
         run: |
           parameter_list=$(mktemp)
           git branch -r |
-          	tee "${parameter_list}" |
-          	xargs -I @ gh workflow run dispatched_workflow.yaml --ref "@" -f parameter1="@"
+          sed 's;[^/]*/;;' |
+          tee "${parameter_list}" |
+          xargs -I @ gh workflow run dispatched_workflow.yaml --ref "@" -f parameter1="@"
           
-          	echo "### Target Environment BEGIN ###"
-          	cat "${parameter_list}"
-          	echo "### Target Environment END ###"
+          echo "### Target Environment BEGIN ###"
+          cat "${parameter_list}"
+          echo "### Target Environment END ###"
