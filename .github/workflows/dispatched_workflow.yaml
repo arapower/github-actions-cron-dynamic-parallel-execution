@@ -6,9 +6,19 @@ on:
         type: string
         required: true
         description: "Parameter 1"
+#jobs:
+#  dispatched-job:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: |
+#        echo "Parameter 1: ${{ github.event.inputs.parameter1 }}"
 jobs:
-  dispatched-job:
+  my_job:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-        echo "Parameter 1: ${{ github.event.inputs.parameter1 }}"
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Run my script
+        run: |
+          echo "Parameter 1: ${{ github.event.inputs.parameter1 }}"
