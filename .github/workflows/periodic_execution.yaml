@@ -29,11 +29,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           parameter_list=$(mktemp)
-          git branch -r |
-          sed 's;[^/]*/;;' |
-          tee "${parameter_list}" |
+          git branch -r | # リモートブランチの一覧を出力
+          sed 's;[^/]*/;;' | # --refオプションに与えるのに不要な部分を削除
+          tee "${parameter_list}" | # あとから表示させるためにファイルに保存
           xargs -I @ gh workflow run dispatched_workflow.yaml --ref "@" -f parameter1="@"
           
-          echo "### Target Environment BEGIN ###"
+          # パラメーターのリストを出力
+          echo "### Parameter list BEGIN ###"
           cat "${parameter_list}"
-          echo "### Target Environment END ###"
+          echo "### Parameter list END ###"
