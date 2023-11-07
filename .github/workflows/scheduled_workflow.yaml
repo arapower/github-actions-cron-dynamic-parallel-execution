@@ -3,10 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
 
 jobs:
   main-job:
@@ -14,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      id-token: write
-      contents: read
+      #id-token: write
+      #contents: read
       actions: write
 
     steps:
