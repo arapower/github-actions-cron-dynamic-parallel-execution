@@ -1,21 +1,21 @@
 name: "Scheduled workflow"
 on:
-  workflow_dispatch:
+  workflow_dispatch: # workflow_dispatchイベントを使って動作確認するため
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 * * * *' # 5分ごとに実行
 
 jobs:
   main-job:
     name: "Scheduled job"
     runs-on: ubuntu-latest
     permissions:
-      actions: write
+      actions: write # 'gh workflow run'コマンド実行のため
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # リモートブランチをすべて取得するため
 
       - name: "Run workflow with workflow_dispatch event"
         env:
@@ -26,7 +26,7 @@ jobs:
           sed 's;[^/]*/;;' | # --refオプションに与えるのに不要な部分を削除
           tee "${parameter_list}" | # あとから表示させるためにファイルに保存
           xargs -I @ gh workflow run dispatched_workflow.yaml --ref "@" -f parameter1="@"
-          
+
           # パラメーターのリストを出力
           echo "### Parameter list BEGIN ###"
           cat "${parameter_list}"
