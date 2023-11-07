@@ -2,7 +2,7 @@ name: "Dispatched Workflow"
 on:
   workflow_dispatch:
     inputs:
-      parameter1:
+      parameter1: # workflow_dispatchイベントで受け取るパラメータを定義
         type: string
         required: true
         description: "Parameter 1"
